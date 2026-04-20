@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Gaurav Singhal | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="https://static.vecteezy.com/system/resources/previews/010/848/391/non_2x/letter-gs-modern-luxury-monogram-logo-free-vector.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .card {
+            background: #111;
+            border-radius: 18px;
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(0,0,0,.7);
+        }
+
+        /* Enhanced Loader */
+        .loader {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: opacity 0.8s ease-out;
+        }
+
+        .loader h1 {
+            font-size: 64px; /* Increased size */
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff, #6366f1, #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite, fadeInUp 1s ease-out;
+        }
+
+        .loader p {
+            margin-top: 20px;
+            color: #6366f1;
+            letter-spacing: 4px;
+            font-size: 14px;
+            text-transform: uppercase;
+            animation: fadeIn 2s ease-in;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Navigation Underline Animation */
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #6366f1;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* AI Assistant Styles */
+        .ai-box {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 320px;
+            background: #111;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            border: 1px solid #222;
+            z-index: 100;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ai-box.minimized {
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background: #4f46e5;
+        }
+
+        .ai-box.minimized .ai-content {
+            display: none;
+        }
+
+        /* Mobile Nav Transition */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+        }
+
+        #mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .hero-img {
+            width: 380px;
+            height: 380px;
+            transition: 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .hero-img {
+                width: 280px;
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div id="loader" class="loader">
+        <h1 id="loader-text">Gaurav Singhal</h1>
+        <p>Welcome to my portfolio website</p>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full bg-black/80 backdrop-blur border-b border-gray-800 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center p-5">
+            <h1 class="font-bold text-2xl tracking-tight">Gaurav Singhal</h1>
+            
+            <!-- Desktop Nav -->
+            <nav class="space-x-8 hidden md:flex font-medium text-gray-300">
+                <a href="#home" class="nav-link transition">Home</a>
+                <a href="#about" class="nav-link transition">About</a>
+                <a href="#skills" class="nav-link transition">Skills</a>
+                <a href="#projects" class="nav-link transition">Projects</a>
+                <a href="#contact" class="nav-link transition">Contact</a>
+            </nav>
+
+            <!-- Hamburger Button -->
+            <button id="menu-btn" class="md:hidden text-2xl text-white focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Side Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black z-[60] flex flex-col items-center justify-center space-y-8 text-2xl font-bold">
+        <button id="close-menu" class="absolute top-6 right-6 text-3xl">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="#home" class="nav-link" onclick="toggleMenu()">Home</a>
+        <a href="#about" class="nav-link" onclick="toggleMenu()">About</a>
+        <a href="#skills" class="nav-link" onclick="toggleMenu()">Skills</a>
+        <a href="#projects" class="nav-link" onclick="toggleMenu()">Projects</a>
+        <a href="#contact" class="nav-link" onclick="toggleMenu()">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-24 pb-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between w-full gap-16 p-6">
+            <div class="order-2 md:order-1 text-center md:text-left flex-1" data-aos="fade-right">
+                <h1 class="text-6xl md:text-8xl font-black mb-6 leading-tight">
+                    Hello I'm <br>
+                    <span class="text-indigo-500">Gaurav Singhal</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl mx-auto md:mx-0">
+                    I'm a Full Stack Developer building high-performance, aesthetically pleasing web experiences for the modern world.
+                </p>
+                
+                <div class="flex justify-center md:justify-start gap-6 mb-10">
+                    <a href="#" class="text-3xl hover:text-indigo-500 transition"><i class="fab fa-github"></i></a>
+                    <a href="#" class="text-3xl hover:text-indigo-500 transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-3xl hover:text-indigo-500 transition"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="text-3xl hover:text-indigo-500 transition"><i class="fab fa-linkedin"></i></a>
+                </div>
+
+                <div class="flex flex-wrap justify-center md:justify-start gap-5">
+                    <a href="#projects" class="bg-indigo-600 hover:bg-indigo-700 px-10 py-4 rounded-full text-lg font-bold transition">
+                        View My Work
+                    </a>
+                    <a href="#contact" class="border-2 border-indigo-600 hover:bg-indigo-600 px-10 py-4 rounded-full text-lg font-bold transition">
+                        Contact Me
+                    </a>
+                </div>
+            </div>
+
+            <div class="order-1 md:order-2 flex justify-center items-center flex-1 py-10" data-aos="zoom-in">
+                <img src="Profile Pic.jpg" class="hero-img w-72 h-72 md:w-[450px] md:h-[450px] rounded-full object-cover border-8 border-indigo-500/20 shadow-2xl shadow-indigo-500/20">
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-zinc-950">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 p-6 items-center" data-aos="fade-up">
+            <div class="flex justify-center order-2 md:order-1">
+                <img src="https://www.artofvfx.com/IM2/IM2_PROLOGUE_VFX_10.jpg" 
+                     class="w-80 h-80 md:w-full md:max-w-md rounded-2xl object-cover border-4 border-indigo-500 rotate-3 hover:rotate-0 transition duration-500 shadow-2xl">
+            </div>
+            <div class="order-1 md:order-2 text-center md:text-left">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">About Me</h2>
+                <p class="text-lg md:text-xl text-gray-400 mb-6 leading-relaxed">
+                    I am a passionate web developer focused on creating modern, responsive websites and applications. 
+                    I bridge the gap between complex backend logic and pixel-perfect frontend design.
+                </p>
+                <p class="text-lg md:text-xl text-gray-400 leading-relaxed">
+                    I love solving real-world problems with code and continuously exploring the frontiers of technology, 
+                    from AI integration to cloud-native architectures.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 bg-black">
+        <div class="max-w-6xl mx-auto p-6">
+            <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up"> My Skills</h2>
+            <div class="flex flex-wrap justify-center gap-6" data-aos="fade-up">
+                
+                <div class="card p-8 flex flex-col items-center justify-between w-40 h-48 text-center bg-zinc-900 rounded-xl">
+                    <div class="flex-grow flex items-center justify-center mb-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/HTML5_Badge.svg/3840px-HTML5_Badge.svg.png" class="max-h-16 w-auto object-contain">
+                    </div>
+                    <span class="font-semibold">HTML</span>
+                </div>
+                
+                <div class="card p-8 flex flex-col items-center justify-between w-40 h-48 text-center bg-zinc-900 rounded-xl">
+                    <div class="flex-grow flex items-center justify-center mb-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/960px-CSS3_logo.svg.png" class="max-h-16 w-auto object-contain">
+                    </div>
+                    <span class="font-semibold">CSS</span>
+                </div>
+                
+                <div class="card p-8 flex flex-col items-center justify-between w-40 h-48 text-center bg-zinc-900 rounded-xl">
+                    <div class="flex-grow flex items-center justify-center mb-4">
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/012/697/298/small/3d-javascript-logo-design-free-png.png" class="max-h-16 w-auto object-contain">
+                    </div>
+                    <span class="font-semibold">JavaScript</span>
+                </div>
+                
+                <div class="card p-8 flex flex-col items-center justify-between w-40 h-48 text-center bg-zinc-900 rounded-xl">
+                    <div class="flex-grow flex items-center justify-center mb-4">
+                        <img src="https://cdn.freebiesupply.com/logos/large/2x/bootstrap-4-logo-svg-vector.svg" class="max-h-16 w-auto object-contain">
+                    </div>
+                    <span class="font-semibold">Bootstrap</span>
+                </div>
+                
+                <div class="card p-8 flex flex-col items-center justify-between w-40 h-48 text-center bg-zinc-900 rounded-xl">
+                    <div class="flex-grow flex items-center justify-center mb-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/960px-Python-logo-notext.svg.png" class="max-h-16 w-auto object-contain">
+                    </div>
+                    <span class="font-semibold">Python</span>
+                </div>
+                
+                <div class="card p-8 flex flex-col items-center justify-between w-40 h-48 text-center bg-zinc-900 rounded-xl">
+                    <div class="flex-grow flex items-center justify-center mb-4">
+                        <img src="https://www.pngkey.com/png/full/269-2693201_mysql-logo-circle-png.png" class="max-h-16 w-auto object-contain">
+                    </div>
+                    <span class="font-semibold">MySQL</span>
+                </div>
+                
+                <div class="card p-8 flex flex-col items-center justify-between w-40 h-48 text-center bg-zinc-900 rounded-xl">
+                    <div class="flex-grow flex items-center justify-center mb-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/3840px-PHP-logo.svg.png" class="max-h-16 w-auto object-contain">
+                    </div>
+                    <span class="font-semibold">PHP</span>
+                </div>
+                
+                <div class="card p-8 flex flex-col items-center justify-between w-40 h-48 text-center bg-zinc-900 rounded-xl">
+                    <div class="flex-grow flex items-center justify-center mb-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/3840px-Visual_Studio_Code_1.35_icon.svg.png" class="max-h-16 w-auto object-contain">
+                    </div>
+                    <span class="font-semibold">VS Code</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24">
+        <div class="max-w-6xl mx-auto p-6">
+            <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">Featured Projects</h2>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="card overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-56 bg-zinc-800">
+                        <img src="data:image/jpeg;base64,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" alt="Portfolio Website Preview" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3">Portfolio Website</h3>
+                        <p class="text-gray-400 mb-6">Personal portfolio website built with Tailwind and AOS animations.</p>
+                        <a href="#" class="text-indigo-400 font-semibold hover:underline">View Project →</a>
+                    </div>
+                </div>
+                <div class="card overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-56 bg-zinc-800">
+                        <img src="https://media.gettyimages.com/id/2159873404/photo/bridgetown-barbados-rohit-sharma-of-india-lifts-the-trophy-after-receiving-it-from-jay-shah.jpg?s=612x612&w=0&k=20&c=anVMx35InfBUow2ziuV2nS-jS2jDViUhOEQJAPB8A_k=" alt="E-Commerce UI Preview" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3">E-Commerce UI</h3>
+                        <p class="text-gray-400 mb-6">Modern responsive ecommerce interface with filtering and cart logic.</p>
+                        <a href="#" class="text-indigo-400 font-semibold hover:underline">View Project →</a>
+                    </div>
+                </div>
+                <div class="card overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-56 bg-zinc-800">
+                        <img src="" alt="E-Commerce UI Preview" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3">Dashboard App</h3>
+                        <p class="text-gray-400 mb-6">SaaS Analytics dashboard with complex charts and data viz components.</p>
+                        <a href="#" class="text-indigo-400 font-semibold hover:underline">View Project →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-zinc-950">
+        <div class="max-w-4xl mx-auto p-6 text-center">
+            <h2 class="text-4xl font-bold mb-10" data-aos="fade-up">Let's Connect</h2>
+            <div class="card p-10 shadow-2xl border border-white/5" data-aos="zoom-in">
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <input placeholder="Name" class="w-full p-4 bg-black border border-gray-800 focus:border-indigo-500 outline-none rounded-xl transition">
+                    <input placeholder="Email" class="w-full p-4 bg-black border border-gray-800 focus:border-indigo-500 outline-none rounded-xl transition">
+                </div>
+                <textarea placeholder="Message" rows="5" class="w-full mb-6 p-4 bg-black border border-gray-800 focus:border-indigo-500 outline-none rounded-xl transition"></textarea>
+                <button class="bg-indigo-600 hover:bg-indigo-700 w-full py-4 rounded-xl text-lg font-bold transition">
+                    Send Message
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gray-900 py-16 text-center">
+        <h2 class="text-2xl font-bold mb-6">Gaurav Singhal</h2>
+        <div class="flex justify-center space-x-8 text-2xl mb-8 text-gray-400">
+            <a href="#" class="hover:text-white"><i class="fab fa-github"></i></a>
+            <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="hover:text-white"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" class="hover:text-white"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <p class="text-gray-500">© 2026 Gaurav Singhal. All Rights Reserved.</p>
+    </footer>
+
+    <!-- AI Assistant -->
+    <div id="ai-box" class="ai-box minimized">
+        <button id="ai-toggle" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+            <i class="fas fa-message text-xl" id="ai-icon"></i>
+        </button>
+
+        <div class="ai-content">
+            <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                <h3 class="font-bold flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    AI Assistant
+                </h3>
+            </div>
+            <div id="chat" class="h-48 overflow-y-auto text-sm mb-4 space-y-2 pr-2 scrollbar-hide">
+                <div class="text-indigo-400 italic">Hi! Ask me about Gaurav's skills or projects.</div>
+            </div>
+            <div class="relative">
+                <input id="ask" placeholder="Ask about me..."
+                class="w-full p-3 bg-black border border-gray-800 focus:border-indigo-500 outline-none rounded-xl text-xs">
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // AOS Init
+        AOS.init({ duration: 1000, once: true });
+
+        // Enhanced Loader Script
+        window.addEventListener('load', () => {
+            const loader = document.getElementById("loader");
+            setTimeout(() => {
+                loader.style.opacity = "0";
+                setTimeout(() => {
+                    loader.style.display = "none";
+                }, 800);
+            }, 2500); // Slightly longer to appreciate the animation
+        });
+
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            document.body.classList.toggle('overflow-hidden');
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
+
+        // AI Assistant Logic
+        const aiBox = document.getElementById("ai-box");
+        const aiToggle = document.getElementById("ai-toggle");
+        const aiIcon = document.getElementById("ai-icon");
+        const input = document.getElementById("ask");
+        const chat = document.getElementById("chat");
+
+        const answers = {
+            name: "Gaurav Singhal is a professional Full Stack Developer.",
+            skills: "Gaurav is skilled in React, Node.js, Tailwind CSS, MongoDB, and JavaScript.",
+            projects: "You can see projects like Dashboard apps, E-commerce UIs, and Portfolios in the projects section.",
+            contact: "You can use the form in the 'Contact' section to send him an email directly.",
+            github: "His GitHub contains numerous open-source contributions and personal projects."
+        };
+
+        aiToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const isMin = aiBox.classList.toggle("minimized");
+            aiIcon.className = isMin ? "fas fa-message text-xl" : "fas fa-chevron-down";
+        });
+
+        aiBox.addEventListener("click", () => {
+            if (aiBox.classList.contains("minimized")) {
+                aiBox.classList.remove("minimized");
+                aiIcon.className = "fas fa-chevron-down";
+            }
+        });
+
+        input.addEventListener("keypress", e => {
+            if (e.key === "Enter" && input.value.trim() !== "") {
+                let q = input.value.toLowerCase();
+                let res = "I'm not sure about that. Try asking about his skills, projects, or contact info!";
+
+                for (let key in answers) {
+                    if (q.includes(key)) {
+                        res = answers[key];
+                    }
+                }
+
+                chat.innerHTML += `<div class="bg-zinc-800 p-2 rounded-lg text-right ml-8 self-end"><span class="text-indigo-300">You:</span> ${input.value}</div>`;
+                chat.innerHTML += `<div class="bg-indigo-900/30 p-2 rounded-lg mr-8 self-start"><span class="text-indigo-400 font-bold">Bot:</span> ${res}</div>`;
+
+                input.value = "";
+                chat.scrollTop = chat.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
